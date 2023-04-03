@@ -5,89 +5,71 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 
 
-class TestEntrance:
-    def test_vhod_s_glavnoi(self, driver):
-        email = "Fursov_08@ya.ru"
-        password = 'йцу123йцу'
+class TestEntrance():
+    email = "Fursov_08@ya.ru"
+    password = 'йцу123йцу'
 
-        # зашли в форму входа проверили что загрузилось
-        driver.find_element(*locator.VOITI_V_AK_S_GLAVNOI).click()
-        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.KNOPKA_VHODA_V_KABINETE)))
+    def test_entrance_from_main(self, driver,):
 
-        # заполняем поля для входа. кликаем на авторизацию,  проверили что вошли
-        driver.find_element(*locator.LOGIN).send_keys(email)
-        driver.find_element(*locator.PASSWORD).send_keys(password)
-        driver.find_element(*locator.KNOPKA_VHODA_V_KABINETE).click()
+        driver.find_element(*locator.LOG_IN_ACCOUNT_FROM_MAIN).click()
+        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.BUTTON_ENTRY_IN_OFFICE)))
 
-        log_s_glavn = WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.ZAKAZ))).text
-        assert log_s_glavn == 'Оформить заказ'
-        driver.quit()
+        driver.find_element(*locator.LOGIN_FIELD).send_keys(TestEntrance.email)
+        driver.find_element(*locator.PASSWORD).send_keys(TestEntrance.password)
+        driver.find_element(*locator.BUTTON_ENTRY_IN_OFFICE).click()
 
-    def test_vhod_cherez_lk(self, driver):
-        email = "Fursov_08@ya.ru"
-        password = 'йцу123йцу'
+        log_s_glavn = WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.BUTTON_PLACE_ORDER))).text
+        assert log_s_glavn == 'Оформить заказ', 'Не найдена кнопка Оформить заказ. логирование с главной не произошло'
+        print('Успешное логирование с главной')
 
-        # зашли в лк проверили что загрузилось
-        driver.find_element(*locator.LICNY_CABINET).click()
-        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.KNOPKA_VHODA_V_KABINETE)))
+    def test_input_through_lk(self, driver):
 
+        driver.find_element(*locator.PERSONAL_AREA).click()
+        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.BUTTON_ENTRY_IN_OFFICE)))
 
-        # заполняем поля для входа. кликаем на авторизацию,  проверили что вошли
-        driver.find_element(*locator.LOGIN).send_keys(email)
-        driver.find_element(*locator.PASSWORD).send_keys(password)
-        driver.find_element(*locator.KNOPKA_VHODA_V_KABINETE).click()
+        driver.find_element(*locator.LOGIN_FIELD).send_keys(TestEntrance.email)
+        driver.find_element(*locator.PASSWORD).send_keys(TestEntrance.password)
+        driver.find_element(*locator.BUTTON_ENTRY_IN_OFFICE).click()
 
 
-        log_cherez_lk = WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.ZAKAZ))).text
-        assert log_cherez_lk == 'Оформить заказ'
+        log_cherez_lk = WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.BUTTON_PLACE_ORDER))).text
+        assert log_cherez_lk == 'Оформить заказ', "Не найдена кнопка Оформить заказ. Логирование через личный кабинет не произошло"
+        print('Успешное логирование через личный кабинет')
 
-        driver.quit()
+    def test_login_through_registration(self, driver):
 
-    def test_vhod_cherez_regu(self, driver):
-        email = "Fursov_08@ya.ru"
-        password = 'йцу123йцу'
-        # зашли в лк проверили что загрузилось
-        driver.find_element(*locator.LICNY_CABINET).click()
-        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.KNOPKA_VHODA_V_KABINETE)))
+        driver.find_element(*locator.PERSONAL_AREA).click()
+        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.BUTTON_ENTRY_IN_OFFICE)))
 
-        # заходим в форму регистрации проверям что прогрузилось
-        driver.find_element(*locator.REGISTRACIA).click()
-        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.VIHOD_S_REGI)))
+        driver.find_element(*locator.BUTTON_GO_REGISTRATION).click()
+        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.EXIT_FROM_REGISTRATION)))
 
-        # переходим из формы регистрации обратно на форму входа по кнопке войти. проверям что переход произошел
-        driver.find_element(*locator.VIHOD_S_REGI).click()
-        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.KNOPKA_VHODA_V_KABINETE)))
+        driver.find_element(*locator.EXIT_FROM_REGISTRATION).click()
+        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.BUTTON_ENTRY_IN_OFFICE)))
 
-        # заполняем поля для входа. кликаем на авторизацию,  проверили что вошли
-        driver.find_element(*locator.LOGIN).send_keys(email)
-        driver.find_element(*locator.PASSWORD).send_keys(password)
-        driver.find_element(*locator.KNOPKA_VHODA_V_KABINETE).click()
+        driver.find_element(*locator.LOGIN_FIELD).send_keys(TestEntrance.email)
+        driver.find_element(*locator.PASSWORD).send_keys(TestEntrance.password)
+        driver.find_element(*locator.BUTTON_ENTRY_IN_OFFICE).click()
 
-        log_cherez_regu = WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.ZAKAZ))).text
-        assert log_cherez_regu == 'Оформить заказ'
-        driver.quit()
+        log_cherez_regu = WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.BUTTON_PLACE_ORDER))).text
+        assert log_cherez_regu == 'Оформить заказ', "Не найдена кнопка Оформить заказ. Логирование через форму регистрации не произошло"
+        print('Успешное логирование  через форму регистрации')
 
-    def test_vhod_cherez_vostan_parol(self, driver):
-        email = "Fursov_08@ya.ru"
-        password = 'йцу123йцу'
+    def test_login_through_reset_password(self, driver):
 
-        # зашли в лк проверили что загрузилось
-        driver.find_element(*locator.LICNY_CABINET).click()
-        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.KNOPKA_VHODA_V_KABINETE)))
+        driver.find_element(*locator.PERSONAL_AREA).click()
+        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.BUTTON_ENTRY_IN_OFFICE)))
 
-        # заходим в форму восстановления пароля, проверям что прогрузилось
-        driver.find_element(*locator.VOST_PAROL).click()
-        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.KNOPKA_VOST_PAROL)))
+        driver.find_element(*locator.PASSWORD_RECOVERY).click()
+        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.RESET_PASSWORD_BUTTON)))
 
-        # переходим из формы восстановления пароля обратнона форму входа по кнопке войти. проверям что переход произошел
-        driver.find_element(*locator.VIHOD_S_REGI).click()
-        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.KNOPKA_VHODA_V_KABINETE)))
+        driver.find_element(*locator.EXIT_FROM_REGISTRATION).click()
+        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.BUTTON_ENTRY_IN_OFFICE)))
 
-        # заполняем поля для входа. кликаем на авторизацию,  проверили что вошли
-        driver.find_element(*locator.LOGIN).send_keys(email)
-        driver.find_element(*locator.PASSWORD).send_keys(password)
-        driver.find_element(*locator.KNOPKA_VHODA_V_KABINETE).click()
+        driver.find_element(*locator.LOGIN_FIELD).send_keys(TestEntrance.email)
+        driver.find_element(*locator.PASSWORD).send_keys(TestEntrance.password)
+        driver.find_element(*locator.BUTTON_ENTRY_IN_OFFICE).click()
 
-        cherez_vostan_parol = WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.ZAKAZ))).text
-        assert cherez_vostan_parol == 'Оформить заказ'
-        driver.quit()
+        cherez_vostan_parol = WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.BUTTON_PLACE_ORDER))).text
+        assert cherez_vostan_parol == 'Оформить заказ',  "Не найдена кнопка Оформить заказ. Логирование через форму восстановления пароля не произошло"
+        print('Успешное логирование через форму регистрации')

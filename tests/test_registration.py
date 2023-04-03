@@ -5,58 +5,45 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 
 class TestRegistration:
-    def test_rega(self, driver):
-        name = 'Andrew'
-        random_number = random.randint(1000, 9999)
-        email = "Fursov_08_" + str(random_number) +"@ya.ru"
-        password = 'qwe123'
+    name = 'Andrew'
+    random_number = random.randint(1000, 9999)
+    email = "Fursov_08_" + str(random_number) + "@ya.ru"
+    password = 'qwe123'
 
+    def test_registration(self, driver):
 
-        #зашли в лк проверили что загрузилось
-        driver.find_element(*locator.LICNY_CABINET).click()
-        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.KNOPKA_VHODA_V_KABINETE)))
+        driver.find_element(*locator.PERSONAL_AREA).click()
+        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.BUTTON_ENTRY_IN_OFFICE)))
 
-        #перешли на форму зарегестироваться, проверили что прогрузилось
-        driver.find_element(*locator.REGISTRACIA).click()
-        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.ZAREGISTRIROVATSA)))
+        driver.find_element(*locator.BUTTON_GO_REGISTRATION).click()
+        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.BUTTON_REGISTER)))
 
-        #заполнили поля, зарегестрировались проверили что перешли на след экран
-        driver.find_element(*locator.REGA_NAME).send_keys(name)
-        driver.find_element(*locator.REGA_MAIL).send_keys(email)
-        driver.find_element(*locator.REGA_PASS).send_keys(password)
-        driver.find_element(*locator.ZAREGISTRIROVATSA).click()
+        driver.find_element(*locator.NAME_FIELD).send_keys(TestRegistration.name)
+        driver.find_element(*locator.MAIL_FIELD).send_keys(TestRegistration.email)
+        driver.find_element(*locator.PASSWORD_FIELD).send_keys(TestRegistration.password)
+        driver.find_element(*locator.BUTTON_REGISTER).click()
 
-        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.KNOPKA_VHODA_V_KABINETE)))
+        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.BUTTON_ENTRY_IN_OFFICE)))
 
-        #проверяем что регистрация прошла.
-        reg = driver.find_element(*locator.KNOPKA_VHODA_V_KABINETE).text
-        assert reg == 'Войти'
-
-        driver.quit()
-
+        reg = driver.find_element(*locator.BUTTON_ENTRY_IN_OFFICE).text
+        assert reg == 'Войти', "Не найдена кнопка войти,  регистрация не произошла"
+        print('Успешная регистрация')
 
     def test_eroor_password(self,driver):
-        name = 'Andrew'
-        random_number = random.randint(1000, 9999)
-        email = "Fursov_08_" + str(random_number) + "@ya.ru"
 
+        driver.find_element(*locator.PERSONAL_AREA).click()
+        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.BUTTON_ENTRY_IN_OFFICE)))
 
-        driver.find_element(*locator.LICNY_CABINET).click()
-        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.KNOPKA_VHODA_V_KABINETE)))
+        driver.find_element(*locator.BUTTON_GO_REGISTRATION).click()
+        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.BUTTON_REGISTER)))
 
+        driver.find_element(*locator.NAME_FIELD).send_keys(TestRegistration.name)
+        driver.find_element(*locator.MAIL_FIELD).send_keys(TestRegistration.email)
+        driver.find_element(*locator.PASSWORD_FIELD).send_keys('123qw')
+        driver.find_element(*locator.BUTTON_REGISTER).click()
 
-        driver.find_element(*locator.REGISTRACIA).click()
-        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.ZAREGISTRIROVATSA)))
+        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located(locator.PASSWORD_ERROR_NOTIFICATION))
 
-        driver.find_element(*locator.REGA_NAME).send_keys(name)
-        driver.find_element(*locator.REGA_MAIL).send_keys(email)
-        driver.find_element(*locator.REGA_PASS).send_keys('123qw')
-        driver.find_element(*locator.ZAREGISTRIROVATSA).click()
-
-        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located(locator.EROR))
-
-        # проверяем что уведомление появилось
-        eror = driver.find_element(*locator.EROR).text
-        assert eror == 'Некорректный пароль'
-
-        driver.quit()
+        error = driver.find_element(*locator.PASSWORD_ERROR_NOTIFICATION).text
+        assert error == 'Некорректный пароль', "Не найдено уведомление, что то пошло не так!"
+        print('Есть проверка на пароль')

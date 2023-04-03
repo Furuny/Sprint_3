@@ -6,107 +6,85 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 
 class TestTransition:
-    def test_perehod_po_lk(self, driver):
-        email = "Fursov_08@ya.ru"
-        password = 'йцу123йцу'
+    email = "Fursov_08@ya.ru"
+    password = 'йцу123йцу'
+    def test_go_to_personal_account(self, driver):
 
-        # зашли в форму входа проверили что загрузилось
-        driver.find_element(*locator.LICNY_CABINET).click()
-        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.KNOPKA_VHODA_V_KABINETE)))
+        driver.find_element(*locator.PERSONAL_AREA).click()
+        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.BUTTON_ENTRY_IN_OFFICE)))
 
-        # заполняем поля для входа. кликаем на авторизацию,  проверили что вошли
-        driver.find_element(*locator.LOGIN).send_keys(email)
-        driver.find_element(*locator.PASSWORD).send_keys(password)
-        driver.find_element(*locator.KNOPKA_VHODA_V_KABINETE).click()
+        driver.find_element(*locator.LOGIN_FIELD).send_keys(TestTransition.email)
+        driver.find_element(*locator.PASSWORD).send_keys(TestTransition.password)
+        driver.find_element(*locator.BUTTON_ENTRY_IN_OFFICE).click()
 
-        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.ZAKAZ)))
+        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.BUTTON_PLACE_ORDER)))
 
-        # переход в лк когда мы авторизованы
-        driver.find_element(*locator.LICNY_CABINET).click()
+        driver.find_element(*locator.PERSONAL_AREA).click()
 
-        lk = WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.ISTORI_ZAKAZ))).text
-        assert lk == 'История заказов'
+        lk = WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.ORDER_HISTORY))).text
+        assert lk == 'История заказов', "не найдена история заказов"
+        print('Успешный переход в личный кабинет после регистрации')
 
-        driver.quit()
+    def test_transition_to_constructor_and_logo(self, driver):
 
-    def test_perehod_v_konstruktor_i_logo(self, driver):
-        email = "Fursov_08@ya.ru"
-        password = 'йцу123йцу'
+        driver.find_element(*locator.PERSONAL_AREA).click()
+        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.BUTTON_ENTRY_IN_OFFICE)))
 
-        # зашли в форму входа проверили что загрузилось
-        driver.find_element(*locator.LICNY_CABINET).click()
-        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.KNOPKA_VHODA_V_KABINETE)))
+        driver.find_element(*locator.LOGIN_FIELD).send_keys(TestTransition.email)
+        driver.find_element(*locator.PASSWORD).send_keys(TestTransition.password)
+        driver.find_element(*locator.BUTTON_ENTRY_IN_OFFICE).click()
 
-        # заполняем поля для входа. кликаем на авторизацию,  проверили что вошли
-        driver.find_element(*locator.LOGIN).send_keys(email)
-        driver.find_element(*locator.PASSWORD).send_keys(password)
-        driver.find_element(*locator.KNOPKA_VHODA_V_KABINETE).click()
+        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.BUTTON_PLACE_ORDER)))
 
-        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.ZAKAZ)))
+        driver.find_element(*locator.PERSONAL_AREA).click()
+        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.ORDER_HISTORY)))
 
-        # переход в лк когда мы авторизованы
-        driver.find_element(*locator.LICNY_CABINET).click()
-        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.ISTORI_ZAKAZ)))
+        driver.find_element(*locator.BURGER_CONSTRUCTOR).click()
 
-        # переход из лк когда авторизованы в конструктор
-        driver.find_element(*locator.KONSTR).click()
+        constructor = WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.BUTTON_PLACE_ORDER))).text
+        assert constructor == 'Оформить заказ'
+        print('Успешный переход в конструктор после регистрации')
 
-        konstrukt = WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.ZAKAZ))).text
-        assert konstrukt == 'Оформить заказ'
-
-        #переход из лк когда авторизованы в логотип
-        driver.find_element(*locator.LICNY_CABINET).click()
-        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.ISTORI_ZAKAZ)))
+        driver.find_element(*locator.PERSONAL_AREA).click()
+        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.ORDER_HISTORY)))
         driver.find_element(*locator.LOGO).click()
 
-        # проверяем что открылся логотип
-        logo = WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.ZAKAZ))).text
+        logo = WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.BUTTON_PLACE_ORDER))).text
         assert logo == 'Оформить заказ'
+        print('Успешный переход по логотипу после регистрации')
 
-        driver.quit()
 
-    def test_vshod_iz_lk(self, driver):
-        email = "Fursov_08@ya.ru"
-        password = 'йцу123йцу'
+    def test_exit_from_account(self, driver):
 
-        # зашли в форму входа проверили что загрузилось
-        driver.find_element(*locator.LICNY_CABINET).click()
-        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.KNOPKA_VHODA_V_KABINETE)))
+        driver.find_element(*locator.PERSONAL_AREA).click()
+        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.BUTTON_ENTRY_IN_OFFICE)))
 
-        # заполняем поля для входа. кликаем на авторизацию,  проверили что вошли
-        driver.find_element(*locator.LOGIN).send_keys(email)
-        driver.find_element(*locator.PASSWORD).send_keys(password)
-        driver.find_element(*locator.KNOPKA_VHODA_V_KABINETE).click()
+        driver.find_element(*locator.LOGIN_FIELD).send_keys(TestTransition.email)
+        driver.find_element(*locator.PASSWORD).send_keys(TestTransition.password)
+        driver.find_element(*locator.BUTTON_ENTRY_IN_OFFICE).click()
 
-        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.ZAKAZ)))
+        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.BUTTON_PLACE_ORDER)))
 
-        #переходим в лк
-        driver.find_element(*locator.LICNY_CABINET).click()
-        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.ISTORI_ZAKAZ)))
+        driver.find_element(*locator.PERSONAL_AREA).click()
+        WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.ORDER_HISTORY)))
 
-        # нажимаем выход. проверяем что вышли.
-        driver.find_element(*locator.VIHOD_IZ_PROFIL).click()
-        exit = WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.KNOPKA_VHODA_V_KABINETE))).text
+        driver.find_element(*locator.LOGOUT_BUTTON).click()
+        exit = WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.BUTTON_ENTRY_IN_OFFICE))).text
         assert exit == 'Войти'
+        print('Успешный выход из лк после регистрации')
 
-        driver.quit()
+    def test_constructor_journey_to_sections(self, driver):
+        element_bun = driver.find_element(*locator.BUN)
+        driver.execute_script("arguments[0].scrollIntoView();", element_bun)
+        assert WebDriverWait(driver, 7).until(expected_conditions.visibility_of_element_located((locator.BUN_CHOSEN)))
+        print('Успешный скролл до булок')
 
+        element_sauce = driver.find_element(*locator.SAUCE)
+        driver.execute_script("arguments[0].scrollIntoView();", element_sauce)
+        assert WebDriverWait(driver, 5).until(expected_conditions.visibility_of_element_located((locator.SAUCE_CHOSEN)))
+        print('Успешный скролл до соусов')
 
-    def test_konsrtuktor_perehod_k_razdelam(self, driver):
-
-        #нажали на соусы  проверили что проскролилась( класс кнопки меняется при нажатии или скролле)
-        element_sause = driver.find_element(*locator.SAUSE)
-        driver.execute_script("arguments[0].scrollIntoView();", element_sause)
-        assert WebDriverWait(driver, 5).until(expected_conditions.visibility_of_element_located((locator.SAUSE_CLIK)))
-
-        #нажали на начинки  проверили что проскролилось(класс кнопки меняется при нажатии или скролле)
-        element_nachin = driver.find_element(*locator.NASCINK)
-        driver.execute_script("arguments[0].scrollIntoView();", element_nachin)
-        assert WebDriverWait(driver, 10).until(expected_conditions.visibility_of_element_located((locator.NASCINK_CLIK)))
-
-        #нажали на булки проверили что проскролилось (класс кнопки меняется при нажатии или скролле)
-        element_bulka = driver.find_element(*locator.BULKA)
-        driver.execute_script("arguments[0].scrollIntoView();", element_bulka)
-        assert WebDriverWait(driver, 5).until(expected_conditions.visibility_of_element_located((locator.BULKA_KLIK)))
-
-        driver.quit()
+        element_filling = driver.find_element(*locator.FILLING_CHEEZE)
+        driver.execute_script("arguments[0].scrollIntoView();", element_filling)
+        assert WebDriverWait(driver, 10).until(expected_conditions.visibility_of_element_located((locator.FILLING_CHOSEN)))
+        print('Успешный скролл до начинок')
