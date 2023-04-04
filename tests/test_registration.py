@@ -26,8 +26,7 @@ class TestRegistration:
         WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.BUTTON_ENTRY_IN_OFFICE)))
 
         reg = driver.find_element(*locator.BUTTON_ENTRY_IN_OFFICE).text
-        assert reg == 'Войти', "Не найдена кнопка войти,  регистрация не произошла"
-        print('Успешная регистрация')
+        assert reg == 'Войти'
 
     def test_eroor_password(self,driver):
 
@@ -45,5 +44,4 @@ class TestRegistration:
         WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located(locator.PASSWORD_ERROR_NOTIFICATION))
 
         error = driver.find_element(*locator.PASSWORD_ERROR_NOTIFICATION).text
-        assert error == 'Некорректный пароль', "Не найдено уведомление, что то пошло не так!"
-        print('Есть проверка на пароль')
+        assert error == 'Некорректный пароль'

@@ -19,8 +19,7 @@ class TestEntrance():
         driver.find_element(*locator.BUTTON_ENTRY_IN_OFFICE).click()
 
         log_s_glavn = WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.BUTTON_PLACE_ORDER))).text
-        assert log_s_glavn == 'Оформить заказ', 'Не найдена кнопка Оформить заказ. логирование с главной не произошло'
-        print('Успешное логирование с главной')
+        assert log_s_glavn == 'Оформить заказ'
 
     def test_input_through_lk(self, driver):
 
@@ -33,8 +32,7 @@ class TestEntrance():
 
 
         log_cherez_lk = WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.BUTTON_PLACE_ORDER))).text
-        assert log_cherez_lk == 'Оформить заказ', "Не найдена кнопка Оформить заказ. Логирование через личный кабинет не произошло"
-        print('Успешное логирование через личный кабинет')
+        assert log_cherez_lk == 'Оформить заказ'
 
     def test_login_through_registration(self, driver):
 
@@ -52,8 +50,7 @@ class TestEntrance():
         driver.find_element(*locator.BUTTON_ENTRY_IN_OFFICE).click()
 
         log_cherez_regu = WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.BUTTON_PLACE_ORDER))).text
-        assert log_cherez_regu == 'Оформить заказ', "Не найдена кнопка Оформить заказ. Логирование через форму регистрации не произошло"
-        print('Успешное логирование  через форму регистрации')
+        assert log_cherez_regu == 'Оформить заказ'
 
     def test_login_through_reset_password(self, driver):
 
@@ -71,5 +68,4 @@ class TestEntrance():
         driver.find_element(*locator.BUTTON_ENTRY_IN_OFFICE).click()
 
         cherez_vostan_parol = WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.BUTTON_PLACE_ORDER))).text
-        assert cherez_vostan_parol == 'Оформить заказ',  "Не найдена кнопка Оформить заказ. Логирование через форму восстановления пароля не произошло"
-        print('Успешное логирование через форму регистрации')
+        assert cherez_vostan_parol == 'Оформить заказ'

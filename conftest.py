@@ -4,7 +4,7 @@ from selenium.webdriver.chrome.options import Options
 
 url = 'https://stellarburgers.nomoreparties.site/'
 
-@pytest.fixture(scope='function')
+@pytest.fixture()
 def driver():
     options = Options()
     options.add_argument('--windows-size=800,600')

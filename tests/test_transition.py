@@ -22,8 +22,7 @@ class TestTransition:
         driver.find_element(*locator.PERSONAL_AREA).click()
 
         lk = WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.ORDER_HISTORY))).text
-        assert lk == 'История заказов', "не найдена история заказов"
-        print('Успешный переход в личный кабинет после регистрации')
+        assert lk == 'История заказов'
 
     def test_transition_to_constructor_and_logo(self, driver):
 
@@ -43,7 +42,6 @@ class TestTransition:
 
         constructor = WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.BUTTON_PLACE_ORDER))).text
         assert constructor == 'Оформить заказ'
-        print('Успешный переход в конструктор после регистрации')
 
         driver.find_element(*locator.PERSONAL_AREA).click()
         WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.ORDER_HISTORY)))
@@ -51,7 +49,6 @@ class TestTransition:
 
         logo = WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.BUTTON_PLACE_ORDER))).text
         assert logo == 'Оформить заказ'
-        print('Успешный переход по логотипу после регистрации')
 
 
     def test_exit_from_account(self, driver):
@@ -71,20 +68,16 @@ class TestTransition:
         driver.find_element(*locator.LOGOUT_BUTTON).click()
         exit = WebDriverWait(driver, 3).until(expected_conditions.visibility_of_element_located((locator.BUTTON_ENTRY_IN_OFFICE))).text
         assert exit == 'Войти'
-        print('Успешный выход из лк после регистрации')
 
     def test_constructor_journey_to_sections(self, driver):
         element_bun = driver.find_element(*locator.BUN)
         driver.execute_script("arguments[0].scrollIntoView();", element_bun)
         assert WebDriverWait(driver, 7).until(expected_conditions.visibility_of_element_located((locator.BUN_CHOSEN)))
-        print('Успешный скролл до булок')
 
         element_sauce = driver.find_element(*locator.SAUCE)
         driver.execute_script("arguments[0].scrollIntoView();", element_sauce)
         assert WebDriverWait(driver, 5).until(expected_conditions.visibility_of_element_located((locator.SAUCE_CHOSEN)))
-        print('Успешный скролл до соусов')
 
         element_filling = driver.find_element(*locator.FILLING_CHEEZE)
         driver.execute_script("arguments[0].scrollIntoView();", element_filling)
         assert WebDriverWait(driver, 10).until(expected_conditions.visibility_of_element_located((locator.FILLING_CHOSEN)))
-        print('Успешный скролл до начинок')
